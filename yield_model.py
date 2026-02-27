@@ -1,6 +1,4 @@
-# yield_model.py
-# Smart Harvesting - Yield & Revenue Prediction Module
-
+import streamlit as st
 
 # ---------------- Utility Functions ---------------- #
 
@@ -34,10 +32,6 @@ def humidity_factor(humidity):
 
 
 def format_inr(amount):
-    """
-    Convert number to Indian currency format.
-    Example: 231000 -> ₹ 2,31,000
-    """
     amount = int(round(amount))
     s = str(amount)
 
@@ -56,96 +50,59 @@ def format_inr(amount):
 # ---------------- Crop Database ---------------- #
 
 crops = {
-    "rice": {"base_yield": 2.5, "optimal_rain": 1200, "temp_min": 20, "temp_max": 35},
-    "maize": {"base_yield": 3.0, "optimal_rain": 900, "temp_min": 18, "temp_max": 30},
-    "wheat": {"base_yield": 2.0, "optimal_rain": 800, "temp_min": 15, "temp_max": 25},
-    "banana": {"base_yield": 18, "optimal_rain": 1500, "temp_min": 20, "temp_max": 35},
-    "apple": {"base_yield": 10, "optimal_rain": 1000, "temp_min": 10, "temp_max": 25},
-    "mango": {"base_yield": 10, "optimal_rain": 1000, "temp_min": 24, "temp_max": 35},
-    "cotton": {"base_yield": 1.5, "optimal_rain": 700, "temp_min": 20, "temp_max": 32},
-    "orange": {"base_yield": 9, "optimal_rain": 1000, "temp_min": 15, "temp_max": 30},
-    "papaya": {"base_yield": 15, "optimal_rain": 1200, "temp_min": 22, "temp_max": 35},
-    "watermelon": {"base_yield": 10, "optimal_rain": 600, "temp_min": 22, "temp_max": 32}
+    "Rice": {"base_yield": 2.5, "optimal_rain": 1200, "temp_min": 20, "temp_max": 35},
+    "Maize": {"base_yield": 3.0, "optimal_rain": 900, "temp_min": 18, "temp_max": 30},
+    "Wheat": {"base_yield": 2.0, "optimal_rain": 800, "temp_min": 15, "temp_max": 25},
+    "Banana": {"base_yield": 18, "optimal_rain": 1500, "temp_min": 20, "temp_max": 35},
+    "Apple": {"base_yield": 10, "optimal_rain": 1000, "temp_min": 10, "temp_max": 25},
+    "Mango": {"base_yield": 10, "optimal_rain": 1000, "temp_min": 24, "temp_max": 35},
+    "Cotton": {"base_yield": 1.5, "optimal_rain": 700, "temp_min": 20, "temp_max": 32},
+    "Orange": {"base_yield": 9, "optimal_rain": 1000, "temp_min": 15, "temp_max": 30},
+    "Papaya": {"base_yield": 15, "optimal_rain": 1200, "temp_min": 22, "temp_max": 35},
+    "Watermelon": {"base_yield": 10, "optimal_rain": 600, "temp_min": 22, "temp_max": 32}
 }
 
-soil_factor = {
-    crop: {"clay": 0.9, "loam": 1.0, "sandy": 0.8}
-    for crop in crops
-}
+soil_options = ["clay", "loam", "sandy"]
+irrigation_options = ["drip", "sprinkler", "canal", "none"]
 
-irrigation_factor = {
-    "drip": 1.1,
-    "sprinkler": 1.0,
-    "canal": 0.9,
-    "none": 0.5
-}
+# ---------------- Streamlit UI ---------------- #
 
+st.title("🌾 Smart Harvesting Yield & Revenue Predictor")
 
-# ---------------- Main Prediction Function ---------------- #
+crop = st.selectbox("Select Crop", list(crops.keys()))
+land = st.number_input("Land Size (acres)", min_value=0.0)
+rainfall = st.number_input("Annual Rainfall (mm)", min_value=0.0)
+temperature = st.number_input("Average Temperature (°C)")
+humidity = st.number_input("Humidity (%)", min_value=0.0, max_value=100.0)
+soil = st.selectbox("Soil Type", soil_options)
+irrigation = st.selectbox("Irrigation Type", irrigation_options)
+market_price = st.number_input("Market Price (₹ per ton)", min_value=0.0)
 
-def predict_yield_and_revenue(data):
-    """
-    Expected input (dictionary):
-    {
-        "crop": "rice",
-        "land": 5,
-        "rainfall": 1000,
-        "temperature": 28,
-        "humidity": 70,
-        "soil": "clay",
-        "irrigation": "drip",
-        "market_price": 20000
-    }
+if st.button("Predict"):
 
-    Returns dictionary:
-    {
-        "estimated_yield_tons": value,
-        "estimated_revenue": value,
-        "estimated_revenue_inr": "₹ formatted value"
-    }
-    """
+    base = crops[crop]["base_yield"]
+    optimal_rain = crops[crop]["optimal_rain"]
+    temp_min = crops[crop]["temp_min"]
+    temp_max = crops[crop]["temp_max"]
 
-    try:
-        crop = data["crop"].lower()
+    F_rain = rainfall_factor(rainfall, optimal_rain)
+    F_temp = temperature_factor(temperature, temp_min, temp_max)
+    F_humidity = humidity_factor(humidity)
 
-        if crop not in crops:
-            return {"error": "Invalid crop selected"}
+    soil_factor = {"clay": 0.9, "loam": 1.0, "sandy": 0.8}
+    irrigation_factor = {"drip": 1.1, "sprinkler": 1.0, "canal": 0.9, "none": 0.5}
 
-        land = float(data["land"])
-        rain = float(data["rainfall"])
-        temp = float(data["temperature"])
-        humidity = float(data["humidity"])
-        soil = data["soil"].lower()
-        irrigation = data["irrigation"].lower()
-        market_price = float(data["market_price"])
+    estimated_yield = (
+        base * land *
+        F_rain *
+        F_temp *
+        F_humidity *
+        soil_factor[soil] *
+        irrigation_factor[irrigation]
+    )
 
-        base = crops[crop]["base_yield"]
-        optimal_rain = crops[crop]["optimal_rain"]
-        temp_min = crops[crop]["temp_min"]
-        temp_max = crops[crop]["temp_max"]
+    estimated_revenue = estimated_yield * market_price
 
-        F_rain = rainfall_factor(rain, optimal_rain)
-        F_temp = temperature_factor(temp, temp_min, temp_max)
-        F_humidity = humidity_factor(humidity)
-        F_soil = soil_factor[crop].get(soil, 0.8)
-        F_irrigation = irrigation_factor.get(irrigation, 0.8)
-
-        estimated_yield = (
-            base * land *
-            F_rain *
-            F_temp *
-            F_humidity *
-            F_soil *
-            F_irrigation
-        )
-
-        estimated_revenue = estimated_yield * market_price
-
-        return {
-            "estimated_yield_tons": round(estimated_yield, 2),
-            "estimated_revenue": round(estimated_revenue, 2),
-            "estimated_revenue_inr": format_inr(estimated_revenue)
-        }
-
-    except Exception as e:
-        return {"error": str(e)}
+    st.subheader("📊 Results")
+    st.success(f"Estimated Yield: {round(estimated_yield, 2)} tons")
+    st.success(f"Estimated Revenue: {format_inr(estimated_revenue)}")
