@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farming Assistant</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="switchTab('home')">
+                <i class="ph-fill ph-plant"></i>
+                <span>Smart Farming</span>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="ph ph-list"></i>
+            </button>
+
+            <!-- Nav Links -->
+            <ul class="nav-links">
+                <li><a href="#" class="nav-item active" onclick="switchTab('home')" id="nav-home">Home</a></li>
+                <li><a href="#" class="nav-item" onclick="switchTab('yield')" id="nav-yield">Yield Predictor</a></li>
+                <li><a href="#" class="nav-item" onclick="switchTab('ai-prediction')" id="nav-ai-prediction">Disease
+                        Prediction</a></li>
+                <li><a href="#" class="nav-item" onclick="switchTab('disease')" id="nav-disease">Disease Prevention</a>
+                </li>
+                <li><a href="#" class="nav-item" onclick="switchTab('schemes')" id="nav-schemes">Financial Aid</a></li>
+                <li><a href="#" class="nav-item" onclick="switchTab('marketplace')" id="nav-marketplace">Equipment</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+
+        <!-- ================= HOME PAGE ================= -->
+        <section id="sec-home" class="page-section active-section fade-in">
+            <div class="hero">
+                <div class="hero-content">
+                    <span class="badge">Welcome to the Future of Agriculture</span>
+                    <h1>Smart Farming <span class="highlight">Assistant</span></h1>
+                    <p class="subtitle">AI-Powered Solutions for Modern Farmers. Make data-driven decisions, increase
+                        yields, and access resources easily.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="switchTab('yield')">Predict Yield</button>
+                        <button class="btn btn-secondary" onclick="switchTab('schemes')">Explore Schemes</button>
+                        <button class="btn btn-outline" onclick="switchTab('marketplace')">Rent Equipment</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <!-- Background image styling will be handled in CSS -->
+                    <div class="image-wrapper"></div>
+                </div>
+            </div>
+
+            <!-- Features Grid (Visual appeal) -->
+            <div class="features-preview">
+                <div class="feature-card" onclick="switchTab('yield')">
+                    <div class="icon-wrapper"><i class="ph ph-chart-line-up"></i></div>
+                    <h3>Yield Prediction</h3>
+                    <p>Get precise estimations for your harvest.</p>
+                </div>
+                <div class="feature-card" onclick="switchTab('disease')">
+                    <div class="icon-wrapper"><i class="ph ph-bug"></i></div>
+                    <h3>Disease Prevention</h3>
+                    <p>Identify risks and protect your crops.</p>
+                </div>
+                <div class="feature-card" onclick="switchTab('schemes')">
+                    <div class="icon-wrapper"><i class="ph ph-bank"></i></div>
+                    <h3>Financial Aid</h3>
+                    <p>Discover government support schemes.</p>
+                </div>
+                <div class="feature-card" onclick="switchTab('marketplace')">
+                    <div class="icon-wrapper"><i class="ph ph-tractor"></i></div>
+                    <h3>Marketplace</h3>
+                    <p>Rent high-quality farming equipment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= YIELD PREDICTOR ================= -->
+        <section id="sec-yield" class="page-section fade-in">
+            <div class="section-header">
+                <h2>Yield & Revenue Predictor</h2>
+                <p>Enter your farm details to get an AI-powered yield and revenue estimate.</p>
+            </div>
+
+            <div class="app-card">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Select Crop <i class="ph ph-plant"></i></label>
+                        <select id="input-crop">
+                            <option value="Rice">Rice</option>
+                            <option value="Maize">Maize</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Banana">Banana</option>
+                            <option value="Cotton">Cotton</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Land Size (acres) <i class="ph ph-map-trifold"></i></label>
+                        <input type="number" id="input-land" min="0" value="1" step="0.1">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Annual Rainfall (mm) <i class="ph ph-cloud-rain"></i></label>
+                        <input type="number" id="input-rain" min="0" value="800">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Temperature (°C) <i class="ph ph-thermometer"></i></label>
+                        <input type="number" id="input-temp" value="25">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Humidity (%) <i class="ph ph-drop"></i></label>
+                        <input type="number" id="input-humidity" min="0" max="100" value="60">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Soil Type <i class="ph ph-mountains"></i></label>
+                        <select id="input-soil">
+                            <option value="clay">Clay</option>
+                            <option value="loam">Loam</option>
+                            <option value="sandy">Sandy</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Irrigation Type <i class="ph ph-waves"></i></label>
+                        <select id="input-irrigation">
+                            <option value="drip">Drip</option>
+                            <option value="sprinkler">Sprinkler</option>
+                            <option value="canal">Canal</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Market Price (₹ per ton) <i class="ph ph-currency-inr"></i></label>
+                        <input type="number" id="input-price" min="0" value="20000">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block mt-6" onclick="predictYield()">Calculate Results</button>
+
+                <!-- Results Section -->
+                <div id="yield-results" class="results-container hidden">
+                    <div class="result-card">
+                        <div class="result-icon yield-icon"><i class="ph ph-trend-up"></i></div>
+                        <div>
+                            <h4>Estimated Yield</h4>
+                            <span class="result-value" id="res-yield">--</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon revenue-icon"><i class="ph ph-wallet"></i></div>
+                        <div>
+                            <h4>Estimated Revenue</h4>
+                            <span class="result-value" id="res-revenue">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= DISEASE PREVENTION ================= -->
+        <section id="sec-disease" class="page-section fade-in">
+            <div class="section-header">
+                <h2>Crop Disease Information</h2>
+                <p>Select a possible condition to learn about descriptions and preventive measures.</p>
+            </div>
+
+            <div class="app-card max-w-md mx-auto">
+                <div class="input-group mb-6">
+                    <label>Select Disease</label>
+                    <select id="input-disease" onchange="showDiseaseInfo()">
+                        <option value="Healthy">Healthy</option>
+                        <option value="Early Blight">Early Blight</option>
+                        <option value="Late Blight">Late Blight</option>
+                        <option value="Leaf Spot">Leaf Spot</option>
+                        <option value="Bacterial Spot">Bacterial Spot</option>
+                    </select>
+                </div>
+
+                <div id="disease-info" class="disease-details">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= AI DISEASE PREDICTION ================= -->
+        <section id="sec-ai-prediction" class="page-section fade-in">
+            <div class="section-header">
+                <h2>AI-Based Crop Disease Detection</h2>
+                <p>Upload a clear image of a crop leaf to detect disease.</p>
+            </div>
+
+            <div class="app-card max-w-md mx-auto">
+                <div class="upload-zone" id="upload-zone">
+                    <input type="file" id="image-upload" accept=".jpg, .jpeg, .png" class="hidden"
+                        onchange="handleImageUpload(event)">
+                    <div class="upload-content" id="upload-content">
+                        <i class="ph ph-image"></i>
+                        <p>Drag & drop or <span>click to upload</span></p>
+                        <span class="upload-hint">Supports JPG, PNG</span>
+                    </div>
+                    <div class="image-preview hidden" id="image-preview-container">
+                        <img id="image-preview" src="" alt="Uploaded Leaf">
+                        <button class="remove-btn" onclick="removeImage()"><i class="ph ph-x"></i></button>
+                    </div>
+                </div>
+
+                <p class="error-msg hidden" id="upload-error">Please upload a crop leaf image to continue.</p>
+
+                <button class="btn btn-primary btn-block mt-6" id="btn-predict" onclick="predictDisease()" disabled>
+                    <i class="ph ph-magic-wand"></i> Predict Disease
+                </button>
+
+                <!-- Loading State -->
+                <div class="loading-state hidden" id="prediction-loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing image using AI model...</p>
+                </div>
+
+                <!-- Result Display -->
+                <div class="prediction-result hidden" id="prediction-result">
+                    <!-- Populated by JS -->
+                </div>
+
+                <p class="disclaimer mt-4 text-center">
+                    <i class="ph ph-info"></i> This is a demo AI prediction. Backend ML model integration is currently
+                    under development.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= FINANCIAL AID ================= -->
+        <section id="sec-schemes" class="page-section fade-in">
+            <div class="section-header">
+                <h2>Government Schemes</h2>
+                <p>Find available financial assistance and subsidies by region.</p>
+            </div>
+
+            <div class="app-card filter-bar">
+                <div class="input-group mx-auto" style="max-width: 400px;">
+                    <label>Select Your State</label>
+                    <select id="input-state" onchange="showSchemes()">
+                        <option value="All India">All India</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="schemes-grid" class="schemes-grid mt-6">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- ================= MARKETPLACE ================= -->
+        <section id="sec-marketplace" class="page-section fade-in">
+            <div class="section-header">
+                <h2>Equipment Marketplace</h2>
+                <p>Find and rent quality farm equipment locally.</p>
+            </div>
+
+            <div class="marketplace-layout">
+                <div class="app-card sidebar">
+                    <h3 class="font-semibold mb-4">Rental Calculator</h3>
+                    <div class="input-group">
+                        <label>Select Equipment</label>
+                        <select id="input-equipment" onchange="calculateRental()">
+                            <option value="Tractor">Tractor</option>
+                            <option value="Harvester">Harvester</option>
+                            <option value="Rotavator">Rotavator</option>
+                            <option value="Seed Drill">Seed Drill</option>
+                            <option value="Sprayer Machine">Sprayer Machine</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-4">
+                        <label>Number of Rental Days</label>
+                        <input type="number" id="input-days" min="1" value="1" oninput="calculateRental()">
+                    </div>
+
+                    <div class="rental-summary">
+                        <div class="flex-between">
+                            <span>Rent per Day:</span>
+                            <span id="rent-per-day" class="font-bold">--</span>
+                        </div>
+                        <div class="flex-between total-cost">
+                            <span>Total Cost:</span>
+                            <span id="rent-total" class="font-bold highlight">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equipment-details">
+                    <h3 class="font-semibold mb-4">Available Owners</h3>
+                    <div id="owners-grid" class="owners-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="ph-fill ph-plant"></i>
+                    <span>Smart Farming</span>
+                </div>
+                <p>Empowering farmers with modern tools, precise insights, and direct connections.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Contact Info</h3>
+                <p><i class="ph ph-envelope"></i> contact@smartfarming.in</p>
+                <p><i class="ph ph-phone"></i> +91 1800-123-4567</p>
+            </div>
+            <div class="footer-about">
+                <h3>About Project</h3>
+                <p>Designed for better agriculture through technology and data.</p>
+                <p class="mt-2 font-medium">Developed by Antigravity</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Smart Farming Assistant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
