@@ -1,12 +1,7 @@
-import streamlit as st
-
-# ==============================
-# Disease Prevention Data
-# ==============================
+# disease_module.py
 
 disease_data = {
-
-    "early_blight": {
+    "Early Blight": {
         "description": "Fungal disease causing dark concentric spots on older leaves.",
         "measures": [
             "Use certified disease-free seeds.",
@@ -18,7 +13,7 @@ disease_data = {
         ]
     },
 
-    "late_blight": {
+    "Late Blight": {
         "description": "Serious disease causing water-soaked lesions that turn brown rapidly.",
         "measures": [
             "Use certified disease-free seeds or tubers.",
@@ -30,7 +25,7 @@ disease_data = {
         ]
     },
 
-    "leaf_spot": {
+    "Leaf Spot": {
         "description": "Brown or black spots on leaves caused mainly by fungi.",
         "measures": [
             "Remove infected leaves.",
@@ -42,7 +37,7 @@ disease_data = {
         ]
     },
 
-    "bacterial_spot": {
+    "Bacterial Spot": {
         "description": "Small dark lesions on leaves and fruits caused by bacteria.",
         "measures": [
             "Use certified disease-free seeds.",
@@ -54,7 +49,7 @@ disease_data = {
         ]
     },
 
-    "healthy": {
+    "Healthy": {
         "description": "No disease detected. Plant is healthy.",
         "measures": [
             "Maintain proper irrigation schedule.",
@@ -67,24 +62,5 @@ disease_data = {
     }
 }
 
-# ==============================
-# Streamlit UI
-# ==============================
-
-st.title("🌿 Plant Disease Prevention System")
-
-selected_disease = st.selectbox(
-    "Select Detected Disease:",
-    list(disease_data.keys())
-)
-
-if st.button("Show Preventive Measures"):
-
-    result = disease_data[selected_disease]
-
-    st.subheader("Description")
-    st.write(result["description"])
-
-    st.subheader("Preventive Measures")
-    for i, measure in enumerate(result["measures"], 1):
-        st.write(f"{i}. {measure}")
+def get_disease_info(disease_name):
+    return disease_data.get(disease_name, None)
